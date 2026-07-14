@@ -22,7 +22,12 @@ export default shipnode
       ? undefined
       : join(homedir(), '.ssh/adoptionlog'),
   })
-  .deployTo('/var/www/nest-api')
+  // v3 changed appPath semantics: it now computes `${deployTo}/${pm2 app name}`
+  // itself, whereas v2 treated deployTo as the app's final release root. Passing
+  // the v2-style '/var/www/nest-api' here doubles the path to
+  // .../nest-api/nest-api/... which never had a `.env` provisioned, breaking
+  // preDeploy. Pass the parent dir so v3 reconstructs the existing v2 path.
+  .deployTo('/var/www')
   .pm2('nest-api', { instances: 1 })
   .port(3001)
   .domain('nest-shipnode.adoptionlog.theid.dev')
