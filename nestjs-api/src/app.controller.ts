@@ -21,6 +21,11 @@ export class AppController {
       this.healthService.checkDatabase(),
       this.healthService.checkRedis(),
     ]);
-    return { status: database.ok && redis.ok ? 'ok' : 'degraded', database, redis };
+    return {
+      status: database.ok && redis.ok ? 'ok' : 'degraded',
+      database,
+      redis,
+      marker: 'zero-downtime-test-1',
+    };
   }
 }
