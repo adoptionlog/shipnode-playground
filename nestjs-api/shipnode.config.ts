@@ -13,6 +13,7 @@ export default shipnode
   .backend()
   .ssh({
     host: '8.222.210.139',
+    port: 22,
     user: 'deploy',
     // Unset in CI: connection.js does readFileSync(identityFile) unconditionally when
     // it's set, with no existsSync check and no fallback to SSH_AUTH_SOCK — so a
@@ -28,6 +29,11 @@ export default shipnode
   .healthCheck('/health')
   .nodeVersion('22')
   .pkgManager('npm')
+  // Monorepo: rsync only ships this app's subdirectory, which has no
+  // package-lock.json of its own since npm workspaces centralizes it at the
+  // repo root. The default `npm ci` requires a matching lockfile and fails
+  // remotely with EUSAGE — `npm install` resolves fresh instead.
+  .installCommand('npm install')
   .keepReleases(2)
   .database({
     type: 'postgres',
