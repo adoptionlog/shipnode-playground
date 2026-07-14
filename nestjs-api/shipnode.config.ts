@@ -35,6 +35,9 @@ export default shipnode
   // remotely with EUSAGE — `npm install` resolves fresh instead.
   .installCommand('npm install')
   .keepReleases(2)
+  // v3 blue-green: alt port must not collide with another app on the same
+  // VPS — 3001 (web) / 3002 is already express-api's port, so pick 3011.
+  .zeroDowntime(3011)
   .database({
     type: 'postgres',
     host: db.hostname,

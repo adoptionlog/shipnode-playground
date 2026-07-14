@@ -25,7 +25,7 @@ export class AppController {
       status: database.ok && redis.ok ? 'ok' : 'degraded',
       database,
       redis,
-      marker: 'zero-downtime-test-1',
+      marker: 'zero-downtime-test-2-v3-bluegreen',
     };
   }
 }

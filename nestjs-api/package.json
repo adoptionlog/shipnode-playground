@@ -1,6 +1,6 @@
 {
   "name": "nestjs-api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "author": "",
   "private": true,
@@ -35,7 +35,7 @@
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
-    "@devalade/shipnode": "^2.5.3",
+    "@devalade/shipnode": "3.2.0-alpha.0",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "@nestjs/cli": "^11.0.0",
