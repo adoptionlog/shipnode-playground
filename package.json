@@ -1,0 +1,9 @@
+{
+  "name": "shipnode-playground",
+  "private": true,
+  "workspaces": [
+    "nestjs-api",
+    "expressjs-api",
+    "nextjs-app"
+  ]
+}

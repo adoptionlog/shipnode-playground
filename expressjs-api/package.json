@@ -1,0 +1,20 @@
+{
+  "name": "expressjs-api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "ioredis": "^5.4.2",
+    "morgan": "~1.9.1",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@devalade/shipnode": "^2.5.3",
+    "@types/node": "^22.10.7"
+  }
+}
