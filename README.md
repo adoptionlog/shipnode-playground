@@ -34,4 +34,4 @@ Copy the relevant `.env.example` to `.env` and point `DATABASE_URL`/`REDIS_URL` 
 
 ## Context
 
-This repo exists to support a published write-up on adopting ShipNode in a realistic setup (database, Redis, CI/CD, and a real zero-downtime test), part of the [Adoption Log](https://adoptionlog.theid.dev) series.
+This repo exists to support a published write-up on adopting ShipNode in a realistic setup (database, Redis, CI/CD, and a real zero-downtime test), part of the [Adoption Log](https://nathan.xdo.app/tag/theadoptionlog/) series.
