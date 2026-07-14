@@ -47,6 +47,17 @@ jobs:
       - name: Install Shipnode
         run: npm install -g @devalade/shipnode
 
+      # .env is gitignored (holds real credentials) so it doesn't exist on the
+      # runner after checkout. shipnode.config.ts reads process.env.DATABASE_URL /
+      # REDIS_URL at build time (see journal §14), so it must be recreated here —
+      # shipnode's own `ci env-sync` sets these secrets but nothing in the tool
+      # consumes them back into a workflow step, see journal §15 annex bug.
+      - name: Write .env
+        working-directory: nestjs-api
+        run: |
+          echo "DATABASE_URL=${{ secrets.NEST_DATABASE_URL }}" >> .env
+          echo "REDIS_URL=${{ secrets.NEST_REDIS_URL }}" >> .env
+
       - name: Deploy
         run: shipnode deploy
         working-directory: nestjs-api
