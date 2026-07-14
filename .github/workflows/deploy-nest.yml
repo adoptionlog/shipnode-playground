@@ -1,0 +1,52 @@
+name: Deploy nestjs-api via Shipnode
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'nestjs-api/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      # Monorepo: npm ci must run from the workspace root (single lockfile),
+      # scoped to this workspace with -w so we don't pull in the other 2 apps.
+      - name: Install dependencies
+        run: npm ci --workspace=nestjs-api
+
+      - name: Build
+        run: npm run build
+        working-directory: nestjs-api
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SHIPNODE_SSH_KEY }}
+
+      - name: Add server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SHIPNODE_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+
+      # shipnode is published as the scoped package @devalade/shipnode —
+      # `npm install -g shipnode` (unscoped) 404s, see journal Bug #8.
+      - name: Install Shipnode
+        run: npm install -g @devalade/shipnode
+
+      - name: Deploy
+        run: shipnode deploy
+        working-directory: nestjs-api
