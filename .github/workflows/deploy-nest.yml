@@ -44,8 +44,14 @@ jobs:
 
       # shipnode is published as the scoped package @devalade/shipnode —
       # `npm install -g shipnode` (unscoped) 404s, see journal Bug #8.
+      # Pinned to the v3 alpha (matching nestjs-api's local devDependency): a
+      # bare `npm install -g @devalade/shipnode` resolves to `latest` (2.5.3),
+      # which silently ignores shipnode.config.ts's zeroDowntime/blue-green
+      # config and runs v2's recreate strategy with v2's remotePath
+      # convention instead — breaking deploys since deployTo here is set for
+      # v3's appPath semantics.
       - name: Install Shipnode
-        run: npm install -g @devalade/shipnode
+        run: npm install -g @devalade/shipnode@3.2.0-alpha.0
 
       # .env is gitignored (holds real credentials) so it doesn't exist on the
       # runner after checkout. shipnode.config.ts reads process.env.DATABASE_URL /
