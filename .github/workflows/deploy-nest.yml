@@ -51,7 +51,7 @@ jobs:
       # convention instead — breaking deploys since deployTo here is set for
       # v3's appPath semantics.
       - name: Install Shipnode
-        run: npm install -g @devalade/shipnode@3.2.0-alpha.0
+        run: npm install -g @devalade/shipnode@3.2.0-alpha.5
 
       # .env is gitignored (holds real credentials) so it doesn't exist on the
       # runner after checkout. shipnode.config.ts reads process.env.DATABASE_URL /
