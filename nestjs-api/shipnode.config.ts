@@ -31,7 +31,12 @@ export default shipnode
   .pm2('nest-api', { instances: 1 })
   .port(3001)
   .domain('nest-shipnode.adoptionlog.theid.dev')
-  .healthCheck('/health')
+  // Defaults (startupDelay: 3s, retries: 3, 2s between attempts) give ~7s
+  // total before giving up — too short for a NestJS cold boot (Nest module
+  // init + TypeORM connection) right after the previous process on the same
+  // port was just deleted. Widened to ~40s to rule out a too-short window
+  // before concluding the blue-green rollback itself is unsafe.
+  .healthCheck('/health', { startupDelay: 10, retries: 10 })
   .nodeVersion('22')
   .pkgManager('npm')
   // Monorepo: rsync only ships this app's subdirectory, which has no
